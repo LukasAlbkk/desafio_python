@@ -43,7 +43,8 @@ st.plotly_chart(fig_pie)
 sex_data = filtered_data['Sex'].value_counts().reset_index()
 sex_data.columns = ['Sex', 'Count']
 fig_sex = px.bar(sex_data, x='Sex', y='Count', title=f'Contagem de Atletas por Sexo ({season_filter} - {country_filter})', labels={'Count': 'Contagem de Atletas', 'Sex': 'Sexo'},color_discrete_sequence=cor_sexo)
-st.plotly_chart(fig_sex)
+st.plotly_chart(fig_sex, width=100) 
+
 
 # Idade
 fig_age = px.line(filtered_data, x='ID', y='Age', title=f'Idades dos Atletas ({season_filter} - {country_filter})', labels={'ID': 'ID do Atleta', 'Age': 'Idade'},color_discrete_sequence=cor_idade)
@@ -56,12 +57,16 @@ fig_weight = px.bar(weight_data, x='Weight', y='Count', title='Distribuição do
 st.plotly_chart(fig_weight)
 
 # Numero de atletas
-team_data = filtered_data['Team'].value_counts().reset_index()
-team_data.columns = ['Team', 'Count']
-fig_team = px.bar(team_data, x='Team', y='Count', title='Contagem de Atletas por Time', labels={'Count': 'Contagem', 'Team': 'Time'}, color_discrete_sequence=cor_time)
-st.plotly_chart(fig_team)
+# Contagem de Atletas
+num_athletes = len(filtered_data)
 
-# Numero por jogos
+# Gráfico de Cartão
+st.markdown(f'## Número de Atletas ({season_filter} - {country_filter})')
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric("Total de Atletas", num_athletes)
+
+# Número por jogos
 games_data = filtered_data['Games'].value_counts().reset_index()
 games_data.columns = ['Games', 'Count']
 fig_games = px.bar(games_data, x='Games', y='Count', title='Contagem de Atletas por Jogos', labels={'Count': 'Contagem', 'Games': 'Jogos'}, color_discrete_sequence=cor_jogos)
